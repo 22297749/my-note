@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -36,6 +37,7 @@ import io.github.biezhi.ome.SendMailException;
  * @author 曹松
  * @since 2018-11-08
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/ar/tb-user")
 public class TbUserController extends BaseController {
