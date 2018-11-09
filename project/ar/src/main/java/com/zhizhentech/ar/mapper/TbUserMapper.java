@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author 曹松
- * @since 2018-11-08
+ * @since 2018-11-09
  */
 public interface TbUserMapper extends BaseMapper<TbUser> {
 

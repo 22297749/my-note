@@ -19,16 +19,4 @@ public class ArApplication {
 		SpringApplication.run(ArApplication.class, args);
 	}
 
-	@Bean
-	  public PaginationInterceptor paginationInterceptor() {
-	      PaginationInterceptor page = new PaginationInterceptor();
-	      page.setDialectType("mysql");
-	      return page;
-	  }
-
-	@Bean 
-	public VerifyCodeBean verifyCodeBean() {
-		return new VerifyCodeBean();
-		
-	}
 }

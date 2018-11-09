@@ -3,6 +3,7 @@ package com.zhizhentech.ar.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,10 +16,17 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zhizhentech.ar.bean.VerifyCodeBean;
+import com.zhizhentech.ar.custom.entity.UserVO;
+import com.zhizhentech.ar.entity.TbLoginLog;
 import com.zhizhentech.ar.entity.TbUser;
 import com.zhizhentech.ar.resultSet.MyResultSet;
+import com.zhizhentech.ar.service.ITbLoginLogService;
 import com.zhizhentech.ar.service.ITbUserService;
+import com.zhizhentech.ar.service.impl.AsyncTaskService;
+import com.zhizhentech.ar.tools.EmailUtils;
 import com.zhizhentech.ar.tools.VerifyCodeUtils;
+
+import io.github.biezhi.ome.SendMailException;
 
 /**
  * <p>
@@ -36,6 +44,10 @@ public class TbUserController extends BaseController {
 	private VerifyCodeBean codeService;
 	@Autowired
 	private ITbUserService userService;
+	@Autowired
+	private AsyncTaskService asyncService;
+	@Autowired
+	private ITbLoginLogService loginLogService;
 	/**
 	 * 判断用户是否存在!!!
 	 * @param user
@@ -59,8 +71,14 @@ public class TbUserController extends BaseController {
 		String result = JSON.toJSONString(resultSet);
 		return result;
 	}
+	/**
+	 * 发送验证码!!!
+	 * @param user
+	 * @return
+	 * @throws SendMailException 
+	 */
 	@RequestMapping("/sendVerificationCode")
-	public String sendVerificationCode(@RequestBody TbUser user) {
+	public String sendVerificationCode(@RequestBody TbUser user) throws SendMailException {
 		String userAccount = user.getAccount();
 		String verCode = VerifyCodeUtils.generateVerifyCode(6);
 		codeService.putVal(userAccount, verCode);
@@ -69,18 +87,63 @@ public class TbUserController extends BaseController {
 		Map<String, Object> extra = new HashMap<>();
 		resultSet.setExtra(extra);
 		extra.put("send", true);
+		//EmailUtils.defSendText(user.getEmail(), "虚拟拆卸系统:您的验证码为:"+verCode+",此验证码10分钟内有效!!!");
+		asyncService.sendSimpleEmail(user.getEmail(), "虚拟拆卸系统:您的验证码为:"+verCode+",此验证码10分钟内有效!!!");
+		return JSON.toJSONString(resultSet);
+	}
+	/**
+	 * 用户注册!!!
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping("/userRegister")
+	public String userRegister(@RequestBody UserVO user) {
+		String verCode = user.getVerCode();
+		String getVerCode = codeService.getVal(user.getAccount());
+		MyResultSet<TbUser> resultSet = new MyResultSet<>();
+
+		Map<String, Object> map = new HashMap<>();
+		resultSet.setExtra(map);
+		if(verCode.equals(getVerCode)) {
+			System.out.println("验证码正确");
+			TbUser tbUser = user;
+			
+			userService.save(tbUser);
+
+			map.put("success", true);
+			resultSet.setExtra(map);
+		}else {
+
+			map.put("success", false);
+			System.out.println("验证码错误");
+		}
 		
 		return JSON.toJSONString(resultSet);
 	}
-	@RequestMapping("/userRegister")
-	public String userRegister(@RequestBody TbUser user) {
-		String verCode = user.getVerCode();
-		String getVerCode = codeService.getVal(user.getAccount());
-		if(verCode.equals(getVerCode)) {
-			System.out.println("验证码正确");
-		}else {
-			System.out.println("验证码错误");
+	
+	@RequestMapping("/userLogin")
+	public String userLogin(@RequestBody TbUser user) {
+		QueryWrapper<TbUser> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq("account", user.getAccount());
+		queryWrapper.eq("password", user.getPassword());
+		TbUser getTbUser = userService.getOne(queryWrapper);
+		MyResultSet<TbUser> resultSet = new MyResultSet<>();
+		
+		resultSet.setResultContent(getTbUser);
+		//记录用户登陆log
+		if(!Objects.isNull(getTbUser)) {
+			int userId = getTbUser.getId();
+			TbLoginLog log = new TbLoginLog();
+			log.setUserId(userId);
+			log.setLoginTime(String.valueOf(System.currentTimeMillis()));
+			loginLogService.save(log);
+			
 		}
+		return JSON.toJSONString(resultSet);
+	}
+	
+	@RequestMapping("/getUserList")
+	public String getUserList() {
 		
 		return null;
 	}

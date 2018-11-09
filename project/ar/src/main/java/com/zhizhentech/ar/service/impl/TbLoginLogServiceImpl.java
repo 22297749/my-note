@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author 曹松
- * @since 2018-11-08
+ * @since 2018-11-09
  */
 @Service
 public class TbLoginLogServiceImpl extends ServiceImpl<TbLoginLogMapper, TbLoginLog> implements ITbLoginLogService {
