@@ -1,0 +1,82 @@
+<link rel="stylesheet" type="text/css" href="css/doublebox-bootstrap.css" />
+<div class="panel panel-default">
+	<div class="panel-heading">创建TestPaper</div>
+	<div class="panel-body">
+		
+<!-- 页面结构 -->
+	<div class="ue-container" id = "keguanti">
+	    <select multiple="multiple" size="10" name="doublebox" class="demo">
+        </select>
+	</div>
+	
+    <script type="text/javascript" src="js/doublebox-bootstrap.js"></script>
+     <script type="text/javascript">
+        $(document).ready(function(){
+		  var demo2 = $('.demo').doublebox({
+          nonSelectedListLabel: '选择客观题',
+          selectedListLabel: '已选择客观题',
+          preserveSelectionOnMove: 'moved',
+          moveOnSelect: false,
+          nonSelectedList:[{"roleId":"1","roleName":"zhang111san"},{"roleId":"2","roleName":"lisi"},{"roleId":"3","roleName":"wangwu"}],
+          selectedList:[{"roleId":"4","roleName":"zhangsan1"},{"roleId":"5","roleName":"lisi1"},{"roleId":"6","roleName":"wangwu1"}],
+          optionValue:"roleId",
+          optionText:"roleName",
+          doubleMove:true,
+        });
+        })
+       
+
+     </script>
+	<div class="ue-container" id = "zhuguanti">
+	    <select multiple="multiple" size="10" name="doublebox" class="demo2">
+        </select>
+	</div>
+	
+    <script type="text/javascript" src="js/doublebox-bootstrap.js"></script>
+     <script type="text/javascript">
+        $(document).ready(function(){
+		  var demo2 = $('.demo2').doublebox({
+          nonSelectedListLabel: '选择主观题',
+          selectedListLabel: '已选择主观题',
+          preserveSelectionOnMove: 'moved',
+          moveOnSelect: false,
+          nonSelectedList:[{"roleId":"1","roleName":"zhangsan"},{"roleId":"2","roleName":"lisi"},{"roleId":"3","roleName":"wangwu"}],
+          selectedList:[{"roleId":"4","roleName":"zhangsan1"},{"roleId":"5","roleName":"lisi1"},{"roleId":"6","roleName":"wangwu1"}],
+          optionValue:"roleId",
+          optionText:"roleName",
+          doubleMove:true,
+        });
+        })
+       
+
+      </script>
+      <div class="form-group">
+    <div class="col-sm-2 col-sm-offset-10">
+      <button type="button" class="btn btn-default" onclick="getLoadTwoModal('浏览试卷','modal/exam_browsePaper_modal.html');">浏览试卷</button>
+     <button type="button" class="btn btn-default" onclick="getSimpleTwoModal('创建TestPaper','是否创建检测试卷？')">创建</button>    
+    </div>
+        
+  </div>
+		  <div class="form-group">
+
+  </div>
+
+	</div>
+	
+</div>
+
+</div>
+</div>
+
+
+</div>
+
+<script>
+	$(document).ready(function(){
+		$("option").click(function(){
+			
+			getLoadTwoModal('题目及内容','modal/exam_browseCurrentSelect_modal.html');
+		});
+	});
+	
+</script>

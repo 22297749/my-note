@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+<div id='menu'></div>
+<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script>
+var list =[
+    {
+        "id": 2,
+        "title": "西安",
+        "parent_id": 0
+    },
+    {
+        "id": 3,
+        "title": "成都",
+        "parent_id": 0
+    },
+    {
+        "id": 4,
+        "title": "华阳",
+        "parent_id": 3
+    },
+    {
+        "id": 5,
+        "title": "广都上街",
+        "parent_id": 4
+    },
+    {
+        "id": 18,
+        "title": "广都上街156号",
+        "parent_id": 5
+    },
+    {
+        "id": 19,
+        "title": "广都上街156号",
+        "parent_id": 18
+    },
+    {
+        "id": 6,
+        "title": "龙泉",
+        "parent_id": 3
+    },
+    {
+        "id": 8,
+        "title": "青白江",
+        "parent_id": 3
+    },
+    {
+        "id": 9,
+        "title": "正北上街",
+        "parent_id": 4
+    },
+    {
+        "id": 10,
+        "title": "重庆",
+        "parent_id": 0
+    },
+    {
+        "id": 11,
+        "title": "长寿",
+        "parent_id": 10
+    }
+];
+
+
+$(document).ready(function() {
+    
+    // 线性数据转化为树。
+    function toTree(data, parent_id) {
+        var tree = [];
+        var temp;
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].parent_id == parent_id) {
+                var obj = data[i];
+                temp = toTree(data, data[i].id);
+                if (temp.length > 0) {
+                 obj.children = temp;
+                }
+                tree.push(obj);
+            }
+        }
+        return tree;
+    }
+
+    // 树形数据转化为ul li格式
+    function createMenu(data) {
+        var menu_body = '<ul>';
+        for(var i = 0; i < data.length; i++){
+            // 一级菜单，默认显示。
+            if(data[i].parent_id == 0)
+            {
+                menu_body += '<li id="' + data[i].id + '" class="menuList" ><a href="#">' + data[i].title + '</a>';     
+            }else{
+                menu_body += '<li id="' + data[i].id + '" class="menuList" style="display:none;"><a href="#">' + data[i].title + '</a>';
+            }
+            if(data[i].children && data[i].children.length > 0){
+                menu_body += createMenu(data[i].children)
+            }
+            menu_body += '</li>';
+        }
+        menu_body += '</ul>';
+        console.log(menu_body);
+        return menu_body;
+    }
+
+    // 菜单初始化。
+    var tree;
+    tree = toTree(list, 0);
+    console.log(tree);
+
+    menu_body = createMenu(tree);
+    $("#menu").append(menu_body);
+
+    // 处理菜单的隐藏和显示。
+    $(".menuList").click(function(){
+        
+        $(this).find("li").click(function(event) {
+            return false;
+        })
+         
+       if($(this).hasClass("shows")) {
+            $(this).removeClass("shows");
+            $(this).find("li").find("ul").removeClass("shows");
+            $(this).find("li").hide();
+        } else {
+            $(this).addClass("shows");
+            $(this).find("li").show();
+            $(this).find("li").find("ul").find("li").hide();
+            $(this).show();
+        }
+    });
+
+});
+
+</script>
+	</body>
+</html>

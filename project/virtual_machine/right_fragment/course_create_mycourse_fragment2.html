@@ -1,0 +1,53 @@
+<div class="panel panel-default">
+	<div class="panel-heading">第二步-为班级分配学生</div>
+	<div class="panel-body">
+		<!--
+        	作者：offline
+        	时间：2018-10-23
+        	描述：左右选择
+        -->
+	<link rel="stylesheet" type="text/css" href="css/doublebox-bootstrap.css" />
+<!-- 页面结构 -->
+	<div class="ue-container">
+	    <select multiple="multiple" size="10" name="doublebox" class="demo">
+        </select>
+	</div>
+	
+    <script type="text/javascript" src="js/doublebox-bootstrap.js"></script>
+     <script type="text/javascript">
+        $(document).ready(function(){
+		  var demo2 = $('.demo').doublebox({
+          nonSelectedListLabel: '选择学生',
+          selectedListLabel: '已选择学生',
+          preserveSelectionOnMove: 'moved',
+          moveOnSelect: false,
+          nonSelectedList:[{"roleId":"1","roleName":"zhangsan"},{"roleId":"2","roleName":"lisi"},{"roleId":"3","roleName":"wangwu"}],
+          selectedList:[{"roleId":"4","roleName":"zhangsan1"},{"roleId":"5","roleName":"lisi1"},{"roleId":"6","roleName":"wangwu1"}],
+          optionValue:"roleId",
+          optionText:"roleName",
+          doubleMove:true,
+        });
+        })
+       
+
+      </script>
+      
+      <!--
+      	作者：offline
+      	时间：2018-10-23
+      	描述：左右选择结束
+      -->
+	<br><!--[if IE]>
+		
+	<![endif]-->
+	 <button type="button" class="btn btn-default" onclick="loadRightDiv('right_fragment/course_create_mycourse_fragment.html')">上一步</button>
+	 <span style="float: right;"> <button type="button" class="btn btn-default" onclick="loadRightDiv('right_fragment/course_create_mycourse_fragment3.html')">下一步</button></span>
+	 
+	</div>
+
+</div>
+</div>
+</div>
+
+
+</div>

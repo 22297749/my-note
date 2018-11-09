@@ -1,0 +1,97 @@
+<div class="panel panel-default">
+	<div class="panel-heading">新建客观题</div>
+	<div class="panel-body">
+		<div class="col-lg-12" style="height: 20px;"></div>
+		<form class="form-horizontal">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-lg-1 control-label">题干</label>
+    <div class="col-lg-11">
+     <textarea class="form-control" cols="40" rows="3" id = "title" ></textarea>
+    </div>
+  </div>
+    <div class="form-group">
+    <label for="inputEmail3" class="col-lg-1 control-label">选项</label>
+    <div class="col-lg-11">
+      <input type="button" class="form-control btn btn-default" id="inputEmail3" value="新建选项" onclick="addNewSelectToTable();">
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-lg-1 control-label">选项</label>
+    <div class="col-lg-11">
+     
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>是否正确</th>
+      <th>选项名称</th>
+      <th>选项答案</th>
+      <th>删除</th>
+    </tr>
+  </thead>
+  <tbody id = "selectsTable">
+    <tr>
+      <td>
+      	  <div class="checkbox">
+    <label>
+      <input type="checkbox">
+    </label>
+  </div>
+      </td>
+      <td>
+      	<textarea class="form-control" cols="40" rows="3"></textarea>
+      </td>
+      <td>
+      	<textarea class="form-control" cols="40" rows="3"></textarea>
+      </td>
+      <td>
+      	<input type="button" class="btn btn-default" value="删除" onclick="deleteCurrentSelect(this);"/>
+      </td>
+    </tr>
+        <tr>
+      <td>
+      	  <div class="checkbox">
+    <label>
+      <input type="checkbox">
+    </label>
+  </div>
+      </td>
+      <td>
+      	<textarea class="form-control" cols="40" rows="3"></textarea>
+      </td>
+      <td>
+      	<textarea class="form-control" cols="40" rows="3"></textarea>
+      </td>
+      <td>
+      	<input type="button" class="btn btn-default" value="删除" onclick="deleteCurrentSelect(this);"/>
+      </td>
+    </tr>
+       
+  </tbody>
+</table>
+
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-lg-1 control-label">浏览</label>
+    <div class="col-lg-11">
+      <input type="button" class="form-control btn btn-default" id="inputEmail3" value="浏览客观题" onclick="browseCurrentSelect();">
+    </div>
+  </div>
+    <div class="form-group">
+    <label for="inputEmail3" class="col-lg-1 control-label">新建</label>
+    <div class="col-lg-11">
+      <input type="button" class="form-control btn btn-default" onclick="createSelectQue();" id="inputEmail3" value="新建客观题">
+    </div>
+  </div>
+  </form>
+
+	</div>
+
+</div>
+
+</div>
+</div>
+
+
+</div>
+
