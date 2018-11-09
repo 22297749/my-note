@@ -1,6 +1,9 @@
 var serverIp = "http://192.168.0.100:8080";
 var projectName = "";
 
+
+var validateUserExistTag = "";
+
 $(document).ready(function(){
  loadTopDiv();
  loadBottomDiv();
@@ -62,18 +65,19 @@ function getLoadTwoModal(name,url){
 
 function getServer(myData,myUrl,suc,err){
 	myUrl = getServerUrl(myUrl);
-	$.ajax({
+	var result = $.ajax({
 		type:"post",
 		url:myUrl,
-		async:true,
+		async:false,
 		data:myData,
 		contentType:"application/json;chartset=uft-8",
 		success:suc,
 		error:err
 	});
+	
 }
 function err(){
-	alert("系统错误!!!");
+	alert("系统错误,请联系管理员...");
 	return false;
 }
 function getServerUrl(myUrl){
