@@ -10,6 +10,5 @@ var apiUrl_v1_pwdReset = "ar/tb-user/pwdReset";
 //其他标记
 //用户是否已存在
 var validateUserExistTag = "";
-var userInfo = {
-}
+var userInfo = "";
 

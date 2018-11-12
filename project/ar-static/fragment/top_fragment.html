@@ -25,7 +25,9 @@
 				<a class="navbar-brand" onclick="examTest();">
 					在线考试
 				</a>
-				
+					<a class="navbar-brand" onclick="getCountPage();">
+					系统统计
+				</a>
 			</div>
 			<div id = "uInfoDiv">
 			<a class="navbar-brand pull-right" onclick="loadCenterDiv('fragment/login_fragment.html')">
@@ -42,6 +44,18 @@
 <script src="myjs/top_fragment.js"></script>
 <script>
 	function examTest(){
-		
+		if(userInfo == ""){
+			alert("请进行登陆后再进行在线考试!!!");
+		}else{
+			loadCenterDiv("fragment/question_fragment.html");
+		}
+	}
+	function getCountPage(){
+		var userId = userInfo.id;
+		if(userId == 1){
+			loadCenterDiv("fragment/count_fragment.html");
+		}else{
+			alert("您无该权限，请联系管理员进行权限开通...");
+		}
 	}
 </script>
