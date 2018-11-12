@@ -7,10 +7,10 @@
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="main.html">
+				<a class="navbar-brand" onclick="loadCenterDiv('fragment/main_fragment.html');">
 					主页
 				</a>
-				<a class="navbar-brand" onclick="loadCenterDiv('fragment/registerDiv_fragment.html');">
+				<a class="navbar-brand" onclick="loadCenterDiv('fragment/register_fragment.html');">
 					用户注册
 				</a>
 				<a class="navbar-brand" onclick="loadCenterDiv('fragment/system_info_fragment.html');">
@@ -22,16 +22,16 @@
 				<a class="navbar-brand" onclick="loadCenterDiv('fragment/file_fragment.html')">
 					系统课件
 				</a>
-				<a class="navbar-brand" onclick="loadCenterDivPlus('right_fragment/exam_create_ques_fragment.html')">
+				<a class="navbar-brand" onclick="examTest();">
 					在线考试
 				</a>
 				
 			</div>
 			<div id = "uInfoDiv">
-			<a class="navbar-brand pull-right" onclick="userLoginModal();">
+			<a class="navbar-brand pull-right" onclick="loadCenterDiv('fragment/login_fragment.html')">
 					登陆
 			</a>
-			<a class="navbar-brand pull-right" onclick="userLoginModal();">
+			<a class="navbar-brand pull-right" onclick="forgetPwd();">
 					忘记密码
 			</a>
 			</div>
@@ -39,4 +39,9 @@
 	</nav>
 </div>
 
-<script src="myjs/top.js"></script>
+<script src="myjs/top_fragment.js"></script>
+<script>
+	function examTest(){
+		
+	}
+</script>

@@ -1,0 +1,53 @@
+<div class="col-lg-6 col-lg-push-3">
+	<div class="panel panel-default">
+	<div class="panel-heading">
+		修改密码
+	</div>
+    <div class="panel-body">
+<form id = "userRegisterForm">
+  <div class="form-group">
+    <label for="password">原密码</label>
+    <input type="password" class="form-control" id="password" name = "password" placeholder="请输入密码(密码大于6位)" >
+  </div>
+    <div class="form-group">
+    <label for="password2">新密码</label>
+    <input type="password" class="form-control" id="password2" name = "password2" placeholder="重复输入密码" >
+  </div>
+  <div class="form-group">
+    <label for="password2">重复输入新密码</label>
+    <input type="password" class="form-control" id="password3" name = "password2" placeholder="重复输入密码" >
+  </div>
+  <div class="form-group">
+    	<button type="button" class="form-control" onclick="pwdReset();">修改密码</button>
+  </div>
+</form>
+        
+        
+    </div>
+</div>
+</div>
+<script>
+	function pwdReset(){
+		var password = userInfo.password;
+		var getPwd = $("#password").val();
+		var nPwd = $("#password2").val();
+		var nPwd2 = $("#password3").val();
+		
+		if(password != getPwd){
+			alert("原密码不正确，请重新输入");
+			return;
+		}
+		
+		if(nPwd != nPwd2){
+			alert("两次新密码不相同，请重新输入");
+			return;
+		}
+		
+		userInfo.password = nPwd;
+		var json = JSON.stringify(userInfo);
+		getServer(json,apiUrl_v1_pwdReset,"","");
+		alert("修改密码成功!!!");
+		loadTopRight(false);
+		loadCenterDiv("fragment/login_fragment.html");
+	}
+</script>

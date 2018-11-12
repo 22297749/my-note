@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zhizhentech.ar.bean.VerifyCodeBean;
@@ -143,10 +144,35 @@ public class TbUserController extends BaseController {
 		}
 		return JSON.toJSONString(resultSet);
 	}
-	
-	@RequestMapping("/getUserList")
-	public String getUserList() {
-		
-		return null;
+	/**
+	 * 密码重置
+	 * @return
+	 */
+	@RequestMapping("/pwdForget")
+	public String pwdForget(@RequestBody TbUser user) {
+		String account = user.getAccount();
+		String email = user.getEmail();
+		QueryWrapper<TbUser> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq("account", account);
+		queryWrapper.eq("email", email);
+		TbUser getUser = userService.getOne(queryWrapper);
+		if(!Objects.isNull(getUser)) {
+			String newPwd = VerifyCodeUtils.generateVerifyCode(10);
+			getUser.setPassword(newPwd);
+			userService.updateById(getUser);
+		}
+		MyResultSet<TbUser> result = new MyResultSet<>();
+		result.setResultContent(getUser);
+		return JSON.toJSONString(result);
 	}
+	
+	@RequestMapping("/pwdReset")
+	public String pwdReset(@RequestBody TbUser user) {
+		TbUser getUser = userService.getById(user.getId());
+		getUser.setPassword(user.getPassword());
+		userService.updateById(getUser);
+		return null;
+		
+	}
+	
 }
