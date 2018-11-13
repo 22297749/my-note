@@ -9,8 +9,10 @@ var apiUrl_v1_pwdForget = "ar/tb-user/pwdForget";
 var apiUrl_v1_pwdReset = "ar/tb-user/pwdReset";
 
 var apiUrl_v1_loginOut = "ar/tb-user/loginOut";
+
+var apiUrl_v1_getUserListByPage = "ar/tb-user/getUserListByPage";
 //其他标记
 //用户是否已存在
 var validateUserExistTag = "";
 var userInfo = "";
-
+var userListTable  = "";

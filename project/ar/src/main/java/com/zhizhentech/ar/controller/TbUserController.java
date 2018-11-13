@@ -16,18 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zhizhentech.ar.bean.VerifyCodeBean;
+import com.zhizhentech.ar.custom.entity.PageVO;
 import com.zhizhentech.ar.custom.entity.UserVO;
 import com.zhizhentech.ar.entity.TbLoginLog;
 import com.zhizhentech.ar.entity.TbUser;
 import com.zhizhentech.ar.resultSet.MyResultSet;
+import com.zhizhentech.ar.resultSet.PageConverter;
 import com.zhizhentech.ar.service.ITbLoginLogService;
 import com.zhizhentech.ar.service.ITbUserService;
 import com.zhizhentech.ar.service.impl.AsyncTaskService;
-import com.zhizhentech.ar.tools.EmailUtils;
 import com.zhizhentech.ar.tools.VerifyCodeUtils;
 
 import io.github.biezhi.ome.SendMailException;
@@ -211,5 +211,26 @@ public class TbUserController extends BaseController {
 		
 	}
 	
+	@RequestMapping("/getUserListByPage")
+	public String getUserListByPage(@RequestBody PageVO pageVO) {
+		IPage<TbUser> iPage = new Page<TbUser>(pageVO.getMyPage().getCurrentPage(),pageVO.getMyPage().getPageSize());
+		QueryWrapper<TbUser> queryWrapper = new QueryWrapper<>();
+		
+		String account = (String) pageVO.getExtra().get("account");
+		String name = (String) pageVO.getExtra().get("name");
+		
+		if(account != null && !account.equals("")) {
+		queryWrapper.eq("account", account);	
+		}
+if(name != null && !name.equals("")) {
+			queryWrapper.eq("name", name);
+		}
+		iPage = userService.page(iPage, queryWrapper);
+		PageConverter<TbUser> pageConverter = new PageConverter<>();
+		MyResultSet<TbUser> myResult = pageConverter.convertPage(iPage);
+		
+		
+		return JSON.toJSONString(myResult);
+	}
 	
 }

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>主界面</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Expires" content="0">
+		<!-- 引入 Bootstrap css -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+	</head>
+
+	<body>
+	<div class="col-lg-5">
+		
+		
+		<table id="table"></table>
+	</div>
+
+		<!-- 引入 Jquery,Bootstrap js -->
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+
+		<script src="js/bootstrap-table.js"></script>
+		<!-- 汉化文件，放在 bootstrap-table.js 后面 -->
+		<script src="js/bootstrap-table-zh-CN.js"></script>
+
+		<script src="myjs/base_value.js"></script>
+		<script src="myjs/base_way.js"></script>
+		<script src="myjs/system_value.js"></script>
+		<script src="myjs/system_way.js"></script>
+
+		<script>
+			$(document).ready(function() {
+				var columns = [{
+					field: 'id',
+					title: '用户ID',
+					sortable: false
+				}, {
+					field: 'account',
+					title: '用户账户',
+					sortable: false
+				}, {
+					field: 'name',
+					title: '用户姓名',
+					sortable: false
+				}, {
+					field: 'email',
+					title: '邮箱',
+					sortable: false
+				}, {
+					field : "id",
+					title :"密码重置6个0",
+					width : 120,
+					align : "center",
+					valign : "middle",
+					formatter : actionFormatter
+				},{
+					field : "id",
+					title :"查看登陆记录",
+					width : 120,
+					align : "center",
+					valign : "middle",
+					formatter : actionFormatter
+				}];
+				loadTable(apiUrl_v1_getUserListByPage, "table", columns, queryParamsFunction,formatDataFun);
+			});
+			/**
+			 * 
+			 * @param {String} queryUrl 需要调用的URL
+			 * @param {String} tableId 需要初始化的TABLE ID
+			 * @param {Array} columns 列格式制定 
+			 * @param {Function} 查询参数格式化方法 此方法的参数为当前的bootstrap-table插件的 sort,offset,limit,order 四个参数
+			 * @param {Function} 格式化返回的数据，为了让此插件能识别 格式为: 如果分页了,则 total 数据 总条数  data 数据列表 ,如果不分页，则直接传列表即可... 这里都是JSON对象，不是JSON字符串..
+			 * 					
+			 */
+			function loadTable(queryUrl, tableId, columns, queryParamsFun, responseHandlerFun) {
+				//获得table名称
+				tableId = "#" + tableId;
+				//获得服务器URL地址
+				var queryUrl = getServerUrl(queryUrl);
+				//初始化table
+
+				userListTable = $(tableId).bootstrapTable({
+					//表格参数配置 已有默认值
+					classes: 'table table-bordered', //表格的类名称。默认情况下，表格是有边框的，你可以添加 'table-no-bordered' 来删除表格的边框样式。
+					striped: 'true', //设置为 true 会有隔行变色效果。
+					sortOrder: "asc", //定义排序方式，'asc' 或者 'desc'。
+					sortStable: false, //设置为 true 将获得稳定的排序，我们会添加\_position属性到 row 数据中。 
+					iconsPrefix: "glyphicon", //定义字体库
+					cache: false,
+					contentType: 'application/json',
+					dataType: "json",
+					queryParamsType: 'limit', // 如果是空，则参数为:"sortName":"","sortOrder":"asc","pageSize":10,"pageNumber":1 如果是limit 则是sort,offset,limit,order
+					//表格参数 没有默认值
+					sortClass: "", //被排序的td元素的类名。
+					height: "", //定义表格的高度。
+					undefinedText: "", //当数据为 undefined 时显示的字符。
+					sortName: "", //定义排序列，通过url方式获取数据填写字段名，否则填写下标。
+					//data :"", //加载静态json数据...
+					//ajax : 自定义AJAX方法 必须实现了JQUERY AJAX API
+					//ajaxOptions 提交ajax请求时的附加参数，可用参数列请查看http://api.jquery.com/jQuery.ajax.
+					//必须自己配置的
+					columns: columns, //列格式 ，必须自己配置
+					method: "POST", //服务器数据的请求方式 'get' 或 'post'。
+					url: queryUrl,
+					queryParams: queryParamsFun, //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果 queryParamsType = 'limit' ,返回参数必须包含
+					//limit, offset, search, sort, order 否则, 需要包含:
+					//pageSize, pageNumber, searchText, sortName, sortOrder.
+					//返回false将会终止请求。 				
+					responseHandler: responseHandlerFun,
+
+					sidePagination: 'server',
+					//显示工具
+					striped: true, //是否显示行间隔色
+					//关于数据
+					cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+					//关于插件
+					pagination: true, //是否显示分页（*）
+					url: queryUrl, //请求后台的URL
+					method: "POST",
+					pageList : [5,10,15,20],
+					pageSize : 5
+					//toolbar : "#toolbar",
+
+				});
+
+			}
+
+			function queryParamsFunction(params) {
+				var currentPage = 1;
+				var offset = params.offset;
+				var limit = params.limit;
+				if(offset == 0){
+					currentPage = 1;
+				}else{
+					currentPage = offset / limit+1; 
+				}
+				var temp = {
+					"myPage":{
+						"currentPage" : currentPage,
+						"pageSize": limit
+					}
+				};
+				temp = JSON.stringify(temp);
+				return temp;
+			}
+
+			function formatDataFun(res) {
+
+				var data = res["resultContent"];
+				var total = res.page.total;
+				return {
+					"total": total,
+					"rows": data
+				}
+			}
+			//操作栏的格式化
+        function actionFormatter(value, row, index) {
+            var id = value;
+            var result = "";
+            result += "<a onclick='changePasswordById("+id+")' class='btn btn-default'>修改密码</a>";
+
+            return result;
+        }
+		</script>
+	</body>
+
+</html>

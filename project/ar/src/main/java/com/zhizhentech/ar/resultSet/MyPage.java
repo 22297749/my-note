@@ -13,9 +13,9 @@ public class MyPage {
 	
 	private Long totalPage;//总的页数
 	
-	private Long currentPage;//当前页码
+	private Long currentPage = 1L;//当前页码
 	
-	private Long pageSize;//一页包含的数据条数
+	private Long pageSize = 10L;//一页包含的数据条数
 	
 	public MyPage() {
 		
