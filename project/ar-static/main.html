@@ -11,6 +11,8 @@
 		<meta http-equiv="Expires" content="0">
 		<!-- 引入 Bootstrap css -->
 		<link href="css/bootstrap.min.css" rel="stylesheet">
+		
+		<link href="css/bootstrap-table.css" rel="stylesheet">
 	</head>
 
 	<body>
@@ -40,8 +42,21 @@
 		<script src="myjs/system_value.js"></script>
 		<script src="myjs/system_way.js"></script>
 		<script src="myjs/main.js"></script>
+		<!--
+        	作者：offline
+        	时间：2018-11-13
+        	描述：拖拽组件
+        -->
 		<script src="js/XQ_drag.js"></script>
-  <script type="text/javascript" language="javascript">        
+		<!--
+        	作者：offline
+        	时间：2018-11-13
+        	描述：bootstrap curd组件...
+        -->
+		<script src="js/bootstrap-table.js"></script>
+		<!-- 汉化文件，放在 bootstrap-table.js 后面 -->
+		<script src="js/bootstrap-table-zh-CN.js"></script>
+ <!--<script type="text/javascript" language="javascript">        
     $(document).ready(function(){
     	
     	$(window).unload(function(){
@@ -56,14 +71,12 @@
 				　
 				event.returnValue = "确定离开当前页面吗？";
 				var json = {
-					"id": 1;
+					"id": 1
 				}
 				json = JSON.stringify(json);
 				getServer(json, apiUrl_v1_loginOut, "", "");
 			}
-   </script>
-			
-			
+   </script>-->
 
 	</body>
 

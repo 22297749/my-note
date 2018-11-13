@@ -12,28 +12,31 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author 曹松
- * @since 2018-11-09
+ * @since 2018-11-13
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class TbUser extends BaseEntity {
+public class TbUserQuesPage extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private String name;
+    private Integer userId;
 
-    private String account;
+    private Integer queId;
 
-    private String email;
-    
-    private String password;
+    private String quesPage;
+
+    private Double score;
+
+    private Long beginTime;
+
+    private Long endTime;
+
+    private Long countTime;
 
 
-
-	
-    
 }

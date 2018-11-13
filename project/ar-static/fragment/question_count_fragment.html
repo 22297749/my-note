@@ -1,0 +1,91 @@
+<table id="table"></table>
+
+<script>
+	$(document).ready(function() {
+
+		var columns = initTableColumns();
+		loadTable(apiUrl_v1_getUserListByPage, "table", columns, initQueryParams, initResponseData);
+	});
+	//1.初始化表格的列
+	function initTableColumns() {
+		var columns = [{
+			field: 'userAccount',
+			title: '用户账户',
+			sortable: false
+		}, {
+			field: 'userName',
+			title: '用户姓名',
+			sortable: false
+		}, {
+			field: 'quesName',
+			title: '问卷名称',
+			sortable: false
+		}, {
+			field: 'beginTime',
+			title: '答题开始时间',
+			sortable: false
+		}, {
+			field: 'endTime',
+			title: '答题结束时间',
+			sortable: false
+		}, {
+			field: 'score',
+			title: '总分数',
+			sortable: false
+		}, {
+			field: "countTime",
+			title: "总用时（分）",
+			sortable: false	
+		
+		
+		}, {
+			field: "id",
+			title: "查看问卷",
+			width: 120,
+			align: "center",
+			valign: "middle",
+			formatter: initGetPageColumn
+		}];
+		return columns;
+	}
+	
+	function initQueryParams(params) {
+		var currentPage = 1;
+		var offset = params.offset;
+		var limit = params.limit;
+		if(offset == 0) {
+			currentPage = 1;
+		} else {
+			currentPage = offset / limit + 1;
+		}
+		var temp = {
+			"myPage": {
+				"currentPage": currentPage,
+				"pageSize": limit
+			}
+		};
+		temp = JSON.stringify(temp);
+		return temp;
+	}
+
+	function initResponseData(res) {
+
+		var data = res["resultContent"];
+		var total = res.page.total;
+		return {
+			"total": total,
+			"rows": data
+		}
+	}
+	//操作栏的格式化
+	function initGetPageColumn(value, row, index) {
+		var id = value;
+		var result = "";
+		result += "<a onclick='getPageById(" + id + ")' class='btn btn-default'>获得问卷</a>";
+
+		return result;
+	}
+	
+	
+	
+</script>

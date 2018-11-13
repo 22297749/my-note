@@ -1,4 +1,4 @@
-<div class="col-lg-3">
+<div class="col-lg-3" id = "quesListDiv">
 
 	<ul class="list-group">
 		<li class="list-group-item" onclick="showQue(this);" url="fragment/question01_fragment.html">汽车发动机基本知识试卷</li>
@@ -12,6 +12,7 @@
 
 <script>
 	function showQue(id){
+		quesBeginTime = new Date().getTime();
 		var url = $(id).attr("url");
 		loadDivFragment(url,"questionPage");
 	}

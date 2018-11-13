@@ -4,8 +4,10 @@ package com.zhizhentech.ar.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zhizhentech.ar.bean.VerifyCodeBean;
@@ -131,12 +134,14 @@ public class TbUserController extends BaseController {
 		QueryWrapper<TbUser> queryWrapper = new QueryWrapper<>();
 		queryWrapper.eq("account", user.getAccount());
 		queryWrapper.eq("password", user.getPassword());
+		
 		TbUser getTbUser = userService.getOne(queryWrapper);
 		MyResultSet<TbUser> resultSet = new MyResultSet<>();
 		
 		resultSet.setResultContent(getTbUser);
 		//记录用户登陆log
 		if(!Objects.isNull(getTbUser)) {
+			getTbUser.setPassword("");
 			int userId = getTbUser.getId();
 			TbLoginLog log = new TbLoginLog();
 			log.setUserId(userId);
@@ -226,11 +231,39 @@ if(name != null && !name.equals("")) {
 			queryWrapper.eq("name", name);
 		}
 		iPage = userService.page(iPage, queryWrapper);
+		iPage.getRecords().forEach(new Consumer<TbUser>() {
+
+			@Override
+			public void accept(TbUser t) {
+				// TODO Auto-generated method stub
+				t.setPassword("");
+			}
+		});
 		PageConverter<TbUser> pageConverter = new PageConverter<>();
 		MyResultSet<TbUser> myResult = pageConverter.convertPage(iPage);
 		
 		
 		return JSON.toJSONString(myResult);
+	}
+	
+	
+	@RequestMapping("/resetPwdByAdmin")
+	public String resetPwdByAdmin(@RequestBody TbUser user) {
+		int id = user.getId();
+		TbUser getTbUser = userService.getById(id);
+		getTbUser.setPassword("000000");
+		userService.updateById(getTbUser);
+		return null;
+	}
+	@RequestMapping("/getUserLoginLog")
+	public String getUserLoginLog(@RequestBody TbUser user) {
+		int id = user.getId();
+		QueryWrapper<TbLoginLog> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq("user_id", id).orderByDesc("login_time");
+		List<TbLoginLog> loginLogList = loginLogService.list(queryWrapper);
+		MyResultSet<TbLoginLog> result = new MyResultSet<>();
+		result.setResultContent(loginLogList);
+		return JSON.toJSONString(result);
 	}
 	
 }

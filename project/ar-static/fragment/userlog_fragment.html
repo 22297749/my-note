@@ -1,125 +1,110 @@
+<table id="table"></table>
 
-		<div class="well">
-			<form class="form-inline" id = "userListForm">
-				<div class="form-group">
-					用户账号：
-					<label class="sr-only" for="exampleInputEmail3">userAccount</label>
-					<input type="text" class="form-control" id="userAccount" name="account" placeholder="用户账号">
-				</div>
-				<div class="form-group">
-					用户名称：
-					<label class="sr-only" for="exampleInputPassword3">userName</label>
-					<input type="text" class="form-control" id="userName" name="name" placeholder="用户名称">
-				</div>
-				
-				<button type="button" class="btn btn-default" onclick="getUserList();">搜索</button>
-			</form>
+<script>
+	$(document).ready(function() {
 
-		</div>
+		var columns = initTableColumns();
+		loadTable(apiUrl_v1_getUserListByPage, "table", columns, initQueryParams, initResponseData);
+	});
+	//1.初始化表格的列
+	function initTableColumns() {
+		var columns = [{
+			field: 'id',
+			title: '用户ID',
+			sortable: false
+		}, {
+			field: 'account',
+			title: '用户账户',
+			sortable: false
+		}, {
+			field: 'name',
+			title: '用户姓名',
+			sortable: false
+		}, {
+			field: 'email',
+			title: '邮箱',
+			sortable: false
+		}, {
+			field: "id",
+			title: "密码重置6个0",
+			width: 120,
+			align: "center",
+			valign: "middle",
+			formatter: initPwdColumn
+		}, {
+			field: "id",
+			title: "查看登陆记录",
+			width: 120,
+			align: "center",
+			valign: "middle",
+			formatter: initLogColumn
+		}];
+		return columns;
+	}
+	
+	function initQueryParams(params) {
+		var currentPage = 1;
+		var offset = params.offset;
+		var limit = params.limit;
+		if(offset == 0) {
+			currentPage = 1;
+		} else {
+			currentPage = offset / limit + 1;
+		}
+		var temp = {
+			"myPage": {
+				"currentPage": currentPage,
+				"pageSize": limit
+			}
+		};
+		temp = JSON.stringify(temp);
+		return temp;
+	}
 
-		<table class="table">
-  <thead>
-    <tr>
-    <th>用户账号</th>
-    <th>用户名称/th>
-    <th>用户邮箱</th>
-    <th>重置密码</th>
-    <th>登陆统计</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>第一章:发动机原理</td>
-      <td>2017-12-01</td>
-      <td>PPT</td>
-      <td>5mb</td>
-      <td>
-      	<a href="img/cat.jpg" download="下载">下载</a>
-      </td>
-       <td>
-      	<a href="img/cat.jpg">删除课件</a>
-      </td>
-    </tr>
-   <tr>
-      <td>第一章:发动机原理</td>
-      <td>2017-12-01</td>
-      <td>PPT</td>
-      <td>5mb</td>
-      <td>
-      	<a href="img/cat.jpg" download="下载">下载</a>
-      </td>
-       <td>
-      	<a href="img/cat.jpg">删除课件</a>
-      </td>
-    </tr>
-     <tr>
-      <td>第一章:发动机原理</td>
-      <td>2017-12-01</td>
-      <td>PPT</td>
-      <td>5mb</td>
-      <td>
-      	<a href="img/cat.jpg" download="下载">下载</a>
-      </td>
-       <td>
-      	<a href="img/cat.jpg">删除课件</a>
-      </td>
-    </tr>
-     <tr>
-      <td>第一章:发动机原理</td>
-      <td>2017-12-01</td>
-      <td>PPT</td>
-      <td>5mb</td>
-      <td>
-      	<a href="img/cat.jpg" download="下载">下载</a>
-      </td>
-       <td>
-      	<a href="img/cat.jpg">删除课件</a>
-      </td>
-    </tr>
-     <tr>
-      <td>第一章:发动机原理</td>
-      <td>2017-12-01</td>
-      <td>PPT</td>
-      <td>5mb</td>
-      <td>
-      	<a href="img/cat.jpg" download="下载">下载</a>
-      </td>
-       <td>
-      	<a href="img/cat.jpg">删除课件</a>
-      </td>
-    </tr>
-  </tbody>
-</table>
-		<div class="col-lg-12">
-			<div class="col-lg-6" style="margin: 20px;">
-				<span>
-					总共<span id="pageNum">10</span>页,共<span id="size">20</span>条.
-				</span>
-			</div>
-			<div class="col-lg-5">
-				<ul class="pagination">
-					<li>
-						<a href="#">&laquo;</a>
-					</li>
-					<li>
-						<a href="#">1</a>
-					</li>
-					<li>
-						<a href="#">2</a>
-					</li>
-					<li>
-						<a href="#">3</a>
-					</li>
-					<li>
-						<a href="#">4</a>
-					</li>
-					<li>
-						<a href="#">5</a>
-					</li>
-					<li>
-						<a href="#">&raquo;</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
+	function initResponseData(res) {
+
+		var data = res["resultContent"];
+		var total = res.page.total;
+		return {
+			"total": total,
+			"rows": data
+		}
+	}
+	//操作栏的格式化
+	function initPwdColumn(value, row, index) {
+		var id = value;
+		var result = "";
+		result += "<a onclick='changePasswordById(" + id + ")' class='btn btn-default'>重置密码</a>";
+
+		return result;
+	}
+	//操作栏的格式化
+	function initLogColumn(value, row, index) {
+		var id = value;
+		var result = "";
+		result += "<a onclick='getLoginLogByUserId(" + id + ")' class='btn btn-default'>登陆记录</a>";
+
+		return result;
+	}
+	
+	function changePasswordById(userId){
+		var data = {
+			id : userId
+		};
+		data = JSON.stringify(data);
+		getServer(data,apiUrl_v1_resetPwdByAdmin,"","");
+		alert("重置密码成功!!!");
+	}
+	function getLoginLogByUserId(userId){
+		var data = {
+			id : userId
+		};
+		data = JSON.stringify(data);
+		getServer(data,apiUrl_v1_getUserLoginLog,getUserLogSuc,"");
+	}
+	function getUserLogSuc(data){
+		userLog = JSON.parse(data);
+		
+		showModal("myModal","用户登陆统计","modal/userLogBody_modal.html","");
+	}
+</script>
