@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author 曹松
- * @since 2018-11-09
+ * @since 2018-11-13
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -27,6 +27,10 @@ public class TbLoginLog extends BaseEntity {
     private Integer userId;
 
     private String loginTime;
+
+    private Integer loginFlag;
+
+    private String loginText;
 
 
 }

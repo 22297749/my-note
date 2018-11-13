@@ -30,4 +30,4 @@ mybatis-plus:
 logging:
   level:
      org.springframework: warn
-     com.zhizhentech.schoolsystem.mapper: trace
+     com.zhizhentech.arsystem.mapper: trace

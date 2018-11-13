@@ -3,6 +3,7 @@
 
 	<head>
 		<title>主界面</title>
+	
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta http-equiv="Pragma" content="no-cache">
@@ -24,21 +25,45 @@
 			</div>
 		</div>
 		<div id="modalDiv"></div>
-		
+
 		<!-- 引入 Jquery,Bootstrap js -->
 		<script src="js/jquery-3.3.1.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
-		
+
 		<!--
         	自定义JS文件
         -->
-        
+
 		<script src="myjs/base_value.js"></script>
 		<script src="myjs/base_way.js"></script>
 		<script src="myjs/system_value.js"></script>
 		<script src="myjs/system_way.js"></script>
 		<script src="myjs/main.js"></script>
 		<script src="js/XQ_drag.js"></script>
+  <script type="text/javascript" language="javascript">        
+    $(document).ready(function(){
+    	
+    	$(window).unload(function(){
+        //响应事件
+        alert("获取到了页面要关闭的事件了！"); 
+        checkLeave();
+    }); 
+    });
+    function checkLeave() {
+				//var json = JSON.stringify(userInfo);
+				//json = JSON.stringify(json);
+				　
+				event.returnValue = "确定离开当前页面吗？";
+				var json = {
+					"id": 1;
+				}
+				json = JSON.stringify(json);
+				getServer(json, apiUrl_v1_loginOut, "", "");
+			}
+   </script>
+			
+			
+
 	</body>
 
 </html>

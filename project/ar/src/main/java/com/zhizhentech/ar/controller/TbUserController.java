@@ -1,6 +1,8 @@
 package com.zhizhentech.ar.controller;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -139,10 +141,25 @@ public class TbUserController extends BaseController {
 			TbLoginLog log = new TbLoginLog();
 			log.setUserId(userId);
 			log.setLoginTime(String.valueOf(System.currentTimeMillis()));
+			log.setLoginFlag(0);
+			log.setLoginText("登入");
+			String logText = getLogText(getTbUser,log);
+			log.setLoginText(logText);
 			loginLogService.save(log);
 			
 		}
 		return JSON.toJSONString(resultSet);
+	}
+	private String getLogText(TbUser getTbUser, TbLoginLog log) {
+		String account = getTbUser.getAccount();
+		String userName = getTbUser.getName();
+		String time ;
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		time = sdf.format(d);
+		String text = log.getLoginText();
+		String result = "用户:"+account+",姓名为:"+userName+"的账户于"+time+"进行了"+text;
+		return result ;
 	}
 	/**
 	 * 密码重置
@@ -174,7 +191,25 @@ public class TbUserController extends BaseController {
 		return null;
 		
 	}
-	
+	@RequestMapping("/loginOut")
+	public String loginOut(@RequestBody TbUser user) {
+		int id = user.getId();
+		TbUser getTbUser = userService.getById(id);
+		if(!Objects.isNull(getTbUser)) {
+			int userId = getTbUser.getId();
+			TbLoginLog log = new TbLoginLog();
+			log.setUserId(userId);
+			log.setLoginTime(String.valueOf(System.currentTimeMillis()));
+			log.setLoginFlag(1);
+			log.setLoginText("登出");
+			String logText = getLogText(getTbUser,log);
+			log.setLoginText(logText);
+			loginLogService.save(log);
+			
+		}
+		return null;
+		
+	}
 	
 	
 }

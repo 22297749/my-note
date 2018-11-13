@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author 曹松
- * @since 2018-11-09
+ * @since 2018-11-13
  */
 public interface ITbLoginLogService extends IService<TbLoginLog> {
 

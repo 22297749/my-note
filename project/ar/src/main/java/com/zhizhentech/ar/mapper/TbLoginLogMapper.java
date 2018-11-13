@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author 曹松
- * @since 2018-11-09
+ * @since 2018-11-13
  */
 public interface TbLoginLogMapper extends BaseMapper<TbLoginLog> {
 
