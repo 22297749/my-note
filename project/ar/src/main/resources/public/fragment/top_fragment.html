@@ -1,0 +1,61 @@
+<div class="col-lg-12">
+	<div class="page-header">
+		<img src="img/logo.png">
+	</div>
+</div>
+<div class="col-lg-12">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" onclick="loadCenterDiv('fragment/main_fragment.html');">
+					主页
+				</a>
+				<a class="navbar-brand" onclick="loadCenterDiv('fragment/register_fragment.html');">
+					用户注册
+				</a>
+				<a class="navbar-brand" onclick="loadCenterDiv('fragment/system_info_fragment.html');">
+					系统操作说明
+				</a>
+				<a class="navbar-brand" onclick="loadCenterDiv('fragment/component_fragment.html')">
+					系统组件列表
+				</a>
+				<a class="navbar-brand" onclick="loadCenterDiv('fragment/file_fragment.html')">
+					系统课件
+				</a>
+				<a class="navbar-brand" onclick="examTest();">
+					在线考试
+				</a>
+					<a class="navbar-brand" onclick="getCountPage();">
+					系统统计
+				</a>
+			</div>
+			<div id = "uInfoDiv">
+			<a class="navbar-brand pull-right" onclick="loadCenterDiv('fragment/login_fragment.html')">
+					登陆
+			</a>
+			<a class="navbar-brand pull-right" onclick="forgetPwd();">
+					忘记密码
+			</a>
+			</div>
+		</div>
+	</nav>
+</div>
+
+<script src="myjs/top_fragment.js"></script>
+<script>
+	function examTest(){
+		if(userInfo == ""){
+			alert("请进行登陆后再进行在线考试!!!");
+		}else{
+			loadCenterDiv("fragment/question_fragment.html");
+		}
+	}
+	function getCountPage(){
+		var userId = userInfo.id;
+		if(userId == 4){
+			loadCenterDiv("fragment/count_fragment.html");
+		}else{
+			alert("您无该权限，请联系管理员进行权限开通...");
+		}
+	}
+</script>

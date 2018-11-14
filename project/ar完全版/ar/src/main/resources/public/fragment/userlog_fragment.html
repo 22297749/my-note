@@ -1,0 +1,110 @@
+<table id="table"></table>
+
+<script>
+	$(document).ready(function() {
+
+		var columns = initTableColumns();
+		loadTable(apiUrl_v1_getUserListByPage, "table", columns, initQueryParams, initResponseData);
+	});
+	//1.初始化表格的列
+	function initTableColumns() {
+		var columns = [{
+			field: 'id',
+			title: '用户ID',
+			sortable: false
+		}, {
+			field: 'account',
+			title: '用户账户',
+			sortable: false
+		}, {
+			field: 'name',
+			title: '用户姓名',
+			sortable: false
+		}, {
+			field: 'email',
+			title: '邮箱',
+			sortable: false
+		}, {
+			field: "id",
+			title: "密码重置6个0",
+			width: 120,
+			align: "center",
+			valign: "middle",
+			formatter: initPwdColumn
+		}, {
+			field: "id",
+			title: "查看登陆记录",
+			width: 120,
+			align: "center",
+			valign: "middle",
+			formatter: initLogColumn
+		}];
+		return columns;
+	}
+	
+	function initQueryParams(params) {
+		var currentPage = 1;
+		var offset = params.offset;
+		var limit = params.limit;
+		if(offset == 0) {
+			currentPage = 1;
+		} else {
+			currentPage = offset / limit + 1;
+		}
+		var temp = {
+			"myPage": {
+				"currentPage": currentPage,
+				"pageSize": limit
+			}
+		};
+		temp = JSON.stringify(temp);
+		return temp;
+	}
+
+	function initResponseData(res) {
+
+		var data = res["resultContent"];
+		var total = res.page.total;
+		return {
+			"total": total,
+			"rows": data
+		}
+	}
+	//操作栏的格式化
+	function initPwdColumn(value, row, index) {
+		var id = value;
+		var result = "";
+		result += "<a onclick='changePasswordById(" + id + ")' class='btn btn-default'>重置密码</a>";
+
+		return result;
+	}
+	//操作栏的格式化
+	function initLogColumn(value, row, index) {
+		var id = value;
+		var result = "";
+		result += "<a onclick='getLoginLogByUserId(" + id + ")' class='btn btn-default'>登陆记录</a>";
+
+		return result;
+	}
+	
+	function changePasswordById(userId){
+		var data = {
+			id : userId
+		};
+		data = JSON.stringify(data);
+		getServer(data,apiUrl_v1_resetPwdByAdmin,"","");
+		alert("重置密码成功!!!");
+	}
+	function getLoginLogByUserId(userId){
+		var data = {
+			id : userId
+		};
+		data = JSON.stringify(data);
+		getServer(data,apiUrl_v1_getUserLoginLog,getUserLogSuc,"");
+	}
+	function getUserLogSuc(data){
+		userLog = JSON.parse(data);
+		
+		showModal("myModal","用户登陆统计","modal/userLogBody_modal.html","");
+	}
+</script>

@@ -1,0 +1,52 @@
+
+	
+	    <div class="col-lg-3">
+	    	
+    
+<ul class="list-group">
+    <li class="list-group-item" onclick="showPdf(this);" url="file/1.pdf" >第1章 汽车发动机基本知识</li>
+    <li class="list-group-item" onclick="showPdf(this);" url="file/2.pdf" >第2章 机体</li>
+    <li class="list-group-item" onclick="showPdf(this);" url="file/3.pdf">第3章 曲柄连杆机构</li>
+    <li class="list-group-item" onclick="showPdf(this);" url="file/4.pdf">第4章 气门机构</li>
+    <li class="list-group-item" onclick="showPdf(this);" url="file/5.pdf">第5章 进排气、增压及排放控制系统</li>
+    <li class="list-group-item" onclick="showPdf(this);" url="file/6.pdf">第6章 汽油机燃油供给系统</li>
+    <li class="list-group-item" onclick="showPdf(this);" url="file/7.pdf">第7章 汽油机点火系统</li>
+    <li class="list-group-item" onclick="showPdf(this);" url="file/8.pdf">第8章 发动机管理系统</li>
+    <li class="list-group-item" onclick="showPdf(this);" url="file/9.pdf">第9章  柴油机燃油系统</li>
+    <li class="list-group-item" onclick="showPdf(this);" url="file/10.pdf">第10章 润滑系统</li>
+    
+    <li class="list-group-item" onclick="showPdf(this);" url="file/100.pdf">第10章 起动系统与电源</li>
+    <li class="list-group-item" onclick="showPdf(this);" url="file/1000.pdf">第10章 冷却系统</li>
+    <li class="list-group-item" onclick="showPdf(this);" url="file/11.pdf">第11章 新型动力发动机</li>
+</ul>
+
+    </div>
+	
+	<div class="col-lg-9" id = "ppdf">
+		
+		<center>
+ <div class="panel panel-primary">
+   <div class="panel-heading" align="center">
+      <h2 id = "pdfName">预览pdf文件</h2>
+   </div>
+   <div class="panel-body">
+	  <a class="media" href="file/2.pdf"></a>  
+   </div>
+</center>
+	</div>
+<script src="js/jquery.media.js"></script>
+<script type="text/javascript">  
+    function showPdf(id){
+    $("#ppdf").empty();
+    $("#ppdf").html("<center><div class='panel panel-primary'><div class='panel-heading' align='center'><h2 id = 'pdfName'>预览pdf文件</h2></div><div class='panel-body'><a class='media' href='file/2.pdf'></a>  </div></center>");
+    
+	var url  = $(id).attr("url");
+	var pdfName = $(id).text();
+	$('a.media').attr("href",url);
+	$("#pdfName").text(pdfName);
+	
+  $('a.media').media({width:800, height:600});  
+  $('a.mediase').media({width:800, height:600});   
+    } 
+      
+</script>  

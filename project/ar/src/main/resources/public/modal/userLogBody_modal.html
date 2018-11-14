@@ -1,0 +1,20 @@
+<table id = "userLogTableList">
+	
+</table>
+<script>
+	$(document).ready(function(){
+		var data = userLog.resultContent;
+		var dataJson = JSON.stringify(data);
+		var columns =initUserLogColumns(); 
+		var cJson = JSON.stringify(columns);
+		loadSimpleTable("userLogTableList",data,columns);
+	});
+	function initUserLogColumns(){
+			var columns = [{
+			field: 'loginText',
+			title: '用户登陆记录',
+			sortable: false
+		}];
+		return columns;
+	}
+</script>
