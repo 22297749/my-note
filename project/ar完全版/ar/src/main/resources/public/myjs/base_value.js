@@ -3,7 +3,7 @@
  */
 
 // 服务器IP地址及端口号或域名
-var serverIp = "http://192.168.0.100:50000";
+var serverIp = "http://39.107.230.115:50000";
 // 项目名称
 var projectName = "ar-demo";
 // 默认调用的模态框的Footer地址
