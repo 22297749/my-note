@@ -18,4 +18,4 @@ https://github.com/biezhi/oh-my-email
  第三个是重点，不是QQ密码，而是授权码，需要登陆QQ邮箱，然后点击左上角设置 =》 然后点击账户 开启</br>
  POP3/SMTP服务，IMAP/SMTP服务， 然后点击下面的生成授权码，第三个参数是这个授权码，而不是密码!!!
 #### 4. 工具类
-请见 java-tools EmialTools.java文件
+请见 java-tools EmialTools.java文件 1
